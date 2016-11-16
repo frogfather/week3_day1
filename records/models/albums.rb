@@ -29,6 +29,17 @@ attr_reader :id
     return albums.map {|hash| Artist.new(hash)}
   end
 
+  def album_length()
+    sql = "SELECT * FROM songs WHERE album_id = #{@id};"
+    song_list = SqlRunner.run(sql)
+    album_length = 0
+    song_list.each do
+      |song| album_length += song["length"].to_i
+    end
+   # binding.pry
+    return album_length
+  end
+
   def delete_all
     sql = "DELETE FROM albums;"
     SqlRunner.run(sql)

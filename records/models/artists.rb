@@ -22,7 +22,7 @@ class Artist
   end
 
 
-  def albums()
+  def albums_by_this_artist()
     sql = "SELECT * FROM albums WHERE artist_id = #{@id}"
     album_list = SqlRunner.run(sql)
     return album_list.map {|hash| Album.new(hash)}
@@ -34,12 +34,24 @@ class Artist
     return artist_list.map{|artist| Artist.new(artist)}
   end
 
-  def delete()
-#can't delete an artist without first 
-#finding and deleting any albums
-#use albums function above and call
-#delete on each one?
-
+  def delete() 
+  #can't delete an artist without first 
+  #deleting associated albums.
+  #Use albums function above and call
+  #delete on each one?
+  
+  albums_to_delete =albums_by_this_artist
+  albums_to_delete.each do
+    |album|
+    to_delete = album.id
+    sql = "DELETE FROM albums 
+      WHERE id = #{to_delete};"
+    SqlRunner.run(sql)  
+    end
+  #now we've deleted the albums we can delete the artist
+  sql = "DELETE FROM artists 
+  WHERE id = #{@id};"
+  SqlRunner.run(sql)      
   end
 
 
