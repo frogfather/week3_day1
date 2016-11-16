@@ -17,6 +17,33 @@ attr_reader :id
     @id = result[0]["id"].to_i
   end
 
+  def artist()
+    sql = "SELECT * FROM artists WHERE id = #{@artist_id}"
+    artist_list = SqlRunner.run(sql)
+    return Artist.new(artist_list[0])
+  end
 
+  def self.all()
+    sql = "SELECT * FROM albums;"
+    albums = SqlRunner.run(sql)
+    return albums.map {|hash| Artist.new(hash)}
+  end
+
+  def delete_all
+    sql = "DELETE FROM albums;"
+    SqlRunner.run(sql)
+  end
+
+  def update
+    return unless @id
+    sql = "UPDATE albums SET (name, genre, artist_id) VALUES ('#{@name}', '#{@genre}', #{@artist_id}) WHERE id = #{@id};"
+    SqlRunner.run(sql)
+  end
+
+  def delete
+    return unless @id
+    sql = "DELETE FROM albums WHERE id = #{@id};"
+    SqlRunner.run(sql)
+  end
 
 end
