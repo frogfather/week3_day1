@@ -1,14 +1,14 @@
-DROP TABLE IF EXISTS artists;
 DROP TABLE IF EXISTS albums;
+DROP TABLE IF EXISTS artists;
 
-CREATE TABLE artists (
+CREATE TABLE artists(
 id serial4 primary key,
-name VARCHAR(255) NOT NULL,
+name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE albums (
+CREATE TABLE albums(
 id serial4 primary key,
 name VARCHAR(255) NOT NULL,
-artist_id INTEGER4 references artists(id),
-genre VARCHAR(255),
+artist_id INT4 references artists(id),
+genre VARCHAR(255)
 );
